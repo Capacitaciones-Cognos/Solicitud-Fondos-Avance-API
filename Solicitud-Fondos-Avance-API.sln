@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solicitud-Fondos-Avance-API", "Solicitud-Fondos-Avance-API.csproj", "{AFCCB57B-698C-4442-A786-F771890836D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFCCB57B-698C-4442-A786-F771890836D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCCB57B-698C-4442-A786-F771890836D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCCB57B-698C-4442-A786-F771890836D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCCB57B-698C-4442-A786-F771890836D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {849F5FED-1839-46DA-B726-3EF5D444C49D}
+	EndGlobalSection
+EndGlobal
