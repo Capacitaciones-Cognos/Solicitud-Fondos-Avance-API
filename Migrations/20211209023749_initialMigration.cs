@@ -10,9 +10,9 @@ namespace Solicitud_Fondos_Avance_API.Migrations
                 name: "Personas",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: true)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombres = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    nombres = table.Column<string>(type: "varchar(max)", nullable: true),
                     apPaterno = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     apMaterno = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     cargo = table.Column<string>(type: "nvarchar(max)", nullable: true),

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Solicitud_Fondos_Avance_API.Models
 {
-    public class Persona
+    public class Persona 
     {
         /*
          ID INT PRIMARY KEY IDENTITY(1,1),

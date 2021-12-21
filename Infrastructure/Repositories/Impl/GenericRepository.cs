@@ -1,4 +1,7 @@
-﻿using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Solicitud_Fondos_Avance_API.Dtos;
+using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
+using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +14,44 @@ namespace Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl
         where T : class
     {
 
+        protected DbContextSolicitudFondosAvance dbContextSolicitudFondosAvance;
+        protected DbSet<T> dbSet;
 
-        public Task<bool> Add(T entity)
+        public GenericRepository(DbContextSolicitudFondosAvance dbContextSolicitudFondosAvance)
         {
-            throw new NotImplementedException();
+            this.dbContextSolicitudFondosAvance = dbContextSolicitudFondosAvance;
+            this.dbSet = dbContextSolicitudFondosAvance.Set<T>();
         }
 
-        public Task<IEnumerable<T>> All()
+
+        public async Task<T> Add(T entity)
         {
-            throw new NotImplementedException();
+            var result = await dbSet.AddAsync(entity);
+            await dbContextSolicitudFondosAvance.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<IEnumerable<T>> All()
         {
-            throw new NotImplementedException();
+            return await dbSet.ToListAsync();
+        }
+
+        public async Task<ResponseDeleteDto> Delete(int id)
+        {
+            var entityForDelete = await GetById(id);
+            var response = new ResponseDeleteDto
+            {
+                deleted = false,
+                message = "Ocurrio un error al eliminar"
+            };
+            if (entityForDelete != null)
+            {
+                dbSet.Remove(entityForDelete);
+                dbContextSolicitudFondosAvance.SaveChanges();
+                response.deleted = true;
+                response.message = $"Eliminacion satisfactoria de la entidad con Id : {id}";
+            }
+            return response;
         }
 
         public Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
@@ -32,9 +59,9 @@ namespace Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl
             throw new NotImplementedException();
         }
 
-        public Task<T> GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await dbSet.FindAsync(id);
         }
 
         public Task<bool> Upsert(T entity)

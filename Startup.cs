@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
+using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl;
+using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +44,10 @@ namespace Solicitud_Fondos_Avance_API
                    )
             );
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            services.AddTransient<IPersonaRepository, PersonaRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
