@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Solicitud_Fondos_Avance_API.Models
 {
-    public class Persona 
+    public class Persona : BaseEntity
     {
         /*
          ID INT PRIMARY KEY IDENTITY(1,1),
@@ -24,7 +24,6 @@ namespace Solicitud_Fondos_Avance_API.Models
          
          */
 
-        public int id { get; set; }
         public string nombres { get; set; }
         public string apPaterno { get; set; }
         public string apMaterno { get; set; }
@@ -33,8 +32,7 @@ namespace Solicitud_Fondos_Avance_API.Models
         public string username { get; set; }
         public string pass { get; set; }
 
-        public byte estado { get; set; }
-
+        
 
     }
 }

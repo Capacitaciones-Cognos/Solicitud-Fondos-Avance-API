@@ -23,9 +23,11 @@ namespace Solicitud_Fondos_Avance_API.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<Persona>> getPersonas()
+        public async Task<IEnumerable<GetPersonaDto>> getPersonas()
         {
-            return await personaRepository.All();
+            return (await personaRepository.All())
+                .ToList()
+                .ConvertAll(personaModel => (GetPersonaDto)personaModel);
         }
 
         [HttpGet]
@@ -37,9 +39,9 @@ namespace Solicitud_Fondos_Avance_API.Controllers
 
         [HttpPost]
         //[Route("add")]
-        public async Task<Persona> addPerson([FromBody] Persona persona)
+        public async Task<GetPersonaDto> addPerson([FromBody] RegistrarPersonaDto personaDto)
         {
-            return await personaRepository.Add(persona);
+            return (GetPersonaDto)(await personaRepository.Add((Persona)personaDto));
         } 
         
         [HttpPost]

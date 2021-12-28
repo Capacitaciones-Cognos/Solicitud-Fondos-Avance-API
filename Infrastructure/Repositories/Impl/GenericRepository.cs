@@ -2,10 +2,12 @@
 using Solicitud_Fondos_Avance_API.Dtos;
 using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
 using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Interfaces;
+using Solicitud_Fondos_Avance_API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl
@@ -33,7 +35,15 @@ namespace Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl
 
         public async Task<IEnumerable<T>> All()
         {
-            return await dbSet.ToListAsync();
+            return (await dbSet.ToListAsync()).Where((entidadActual) => {
+                Type entityType = entidadActual.GetType();
+                if (entityType.IsSubclassOf(typeof(BaseEntity)))
+                {
+                    PropertyInfo propEstado = entityType.GetProperty("estado");
+                    return ((byte)propEstado.GetValue(entidadActual)) == 1;
+                }
+                return false;
+            });
         }
 
         public async Task<ResponseDeleteDto> Delete(int id)
@@ -46,7 +56,17 @@ namespace Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl
             };
             if (entityForDelete != null)
             {
-                dbSet.Remove(entityForDelete);
+                Type entityType = entityForDelete.GetType();
+                if (entityType.IsSubclassOf(typeof(BaseEntity)))
+                {
+                    PropertyInfo propEstado = entityType.GetProperty("estado");
+                    propEstado.SetValue(entityForDelete, (byte)0);
+                    
+                    PropertyInfo propFechaModificacion = entityType.GetProperty("fecha_modificacion");
+                    propFechaModificacion.SetValue(entityForDelete, DateTime.UtcNow);
+                }
+                dbSet.Update(entityForDelete);
+                //dbSet.Remove(entityForDelete);
                 dbContextSolicitudFondosAvance.SaveChanges();
                 response.deleted = true;
                 response.message = $"Eliminacion satisfactoria de la entidad con Id : {id}";
