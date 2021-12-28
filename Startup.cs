@@ -2,11 +2,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
+using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl;
+using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +37,17 @@ namespace Solicitud_Fondos_Avance_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Solicitud_Fondos_Avance_API", Version = "v1" });
             });
+
+            services.AddDbContext<DbContextSolicitudFondosAvance>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")
+                   )
+            );
+            services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            services.AddTransient<IPersonaRepository, PersonaRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
