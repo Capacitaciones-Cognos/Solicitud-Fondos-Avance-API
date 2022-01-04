@@ -43,10 +43,15 @@ namespace Solicitud_Fondos_Avance_API
                     Configuration.GetConnectionString("DefaultConnection")
                    )
             );
+
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddTransient<IPersonaRepository, PersonaRepository>();
+            services.AddTransient<IProyectoRepository, ProyectoRepository>();
 
         }
 
