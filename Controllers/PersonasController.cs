@@ -49,7 +49,15 @@ namespace Solicitud_Fondos_Avance_API.Controllers
         public async Task<Persona> addPersonWithValidation([FromBody] Persona persona)
         {
             return await personaRepository.addWithValidations(persona);
-        } 
+        }
+
+
+        [HttpPut]
+        public async Task<bool> upsertPerson([FromBody] Persona persona)
+        {
+            return await personaRepository.Upsert(persona);
+        }
+
 
         [HttpDelete]
         [Route("{id}")]

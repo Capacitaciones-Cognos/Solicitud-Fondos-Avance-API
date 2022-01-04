@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
 
 namespace Solicitud_Fondos_Avance_API.Migrations
 {
     [DbContext(typeof(DbContextSolicitudFondosAvance))]
-    partial class DbContextSolicitudFondosAvanceModelSnapshot : ModelSnapshot
+    [Migration("20220104010955_sixMigration_AddRelationWithProjectPerson")]
+    partial class sixMigration_AddRelationWithProjectPerson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +91,7 @@ namespace Solicitud_Fondos_Avance_API.Migrations
                     b.Property<string>("nombre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("personaId")
+                    b.Property<int>("personaId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -103,7 +105,9 @@ namespace Solicitud_Fondos_Avance_API.Migrations
                 {
                     b.HasOne("Solicitud_Fondos_Avance_API.Models.Persona", "persona")
                         .WithMany("proyectos")
-                        .HasForeignKey("personaId");
+                        .HasForeignKey("personaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("persona");
                 });
