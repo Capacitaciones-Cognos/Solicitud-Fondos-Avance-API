@@ -17,6 +17,11 @@ namespace Solicitud_Fondos_Avance_API.Infrastructure.DataContext
         // referencia a cada entidad o tabla
         public virtual DbSet<Persona> Personas { get; set; }
         public virtual DbSet<Proyecto> Proyectos { get; set; }
+        public virtual DbSet<SubProyecto> SubProyectos { get; set; }
+        public virtual DbSet<ActividadProyecto> ActividadProyectos { get; set; }
+        public virtual DbSet<SubProyecto_Actividad> SubProyecto_Actividades { get; set; }
+
+
         //public virtual DbSet<Producto> Productos { get; set; }
 
 

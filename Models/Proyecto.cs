@@ -21,6 +21,9 @@ namespace Solicitud_Fondos_Avance_API.Models
         [ForeignKey("personaId")]
         public Persona persona { get; set; }
 
-        
+
+        [InverseProperty(property: "proyecto")]
+        public List<SubProyecto> subProyectos { get; set; }
+
     }
 }

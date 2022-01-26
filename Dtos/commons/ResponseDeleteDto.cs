@@ -9,6 +9,5 @@ namespace Solicitud_Fondos_Avance_API.Dtos
     {
         public bool deleted { get; set; }
         public string message { get; set; }
-
     }
 }

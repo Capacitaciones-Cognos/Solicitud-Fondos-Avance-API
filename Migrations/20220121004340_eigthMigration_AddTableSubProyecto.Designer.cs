@@ -3,48 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
 
 namespace Solicitud_Fondos_Avance_API.Migrations
 {
     [DbContext(typeof(DbContextSolicitudFondosAvance))]
-    partial class DbContextSolicitudFondosAvanceModelSnapshot : ModelSnapshot
+    [Migration("20220121004340_eigthMigration_AddTableSubProyecto")]
+    partial class eigthMigration_AddTableSubProyecto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
-
-            modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.ActividadProyecto", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<byte>("estado")
-                        .HasColumnType("tinyint");
-
-                    b.Property<DateTime>("fecha_creacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("fecha_modificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("prioridad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("tarea")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("ActividadProyectos");
-                });
 
             modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.Persona", b =>
                 {
@@ -155,40 +130,6 @@ namespace Solicitud_Fondos_Avance_API.Migrations
                     b.ToTable("SubProyectos");
                 });
 
-            modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.SubProyecto_Actividad", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("actividadProyectoId")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("estado")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("faseActual")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("fecha_creacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("fecha_modificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("subProyectoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("actividadProyectoId");
-
-                    b.HasIndex("subProyectoId");
-
-                    b.ToTable("SubProyecto_Actividades");
-                });
-
             modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.Proyecto", b =>
                 {
                     b.HasOne("Solicitud_Fondos_Avance_API.Models.Persona", "persona")
@@ -209,30 +150,6 @@ namespace Solicitud_Fondos_Avance_API.Migrations
                     b.Navigation("proyecto");
                 });
 
-            modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.SubProyecto_Actividad", b =>
-                {
-                    b.HasOne("Solicitud_Fondos_Avance_API.Models.ActividadProyecto", "actividadProyecto")
-                        .WithMany("subProyectosActividades")
-                        .HasForeignKey("actividadProyectoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Solicitud_Fondos_Avance_API.Models.SubProyecto", "subProyecto")
-                        .WithMany("subProyectosActividades")
-                        .HasForeignKey("subProyectoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("actividadProyecto");
-
-                    b.Navigation("subProyecto");
-                });
-
-            modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.ActividadProyecto", b =>
-                {
-                    b.Navigation("subProyectosActividades");
-                });
-
             modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.Persona", b =>
                 {
                     b.Navigation("proyectos");
@@ -241,11 +158,6 @@ namespace Solicitud_Fondos_Avance_API.Migrations
             modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.Proyecto", b =>
                 {
                     b.Navigation("subProyectos");
-                });
-
-            modelBuilder.Entity("Solicitud_Fondos_Avance_API.Models.SubProyecto", b =>
-                {
-                    b.Navigation("subProyectosActividades");
                 });
 #pragma warning restore 612, 618
         }

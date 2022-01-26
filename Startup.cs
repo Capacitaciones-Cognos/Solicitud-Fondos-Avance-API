@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,13 +9,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Solicitud_Fondos_Avance_API.Infrastructure.Auth.Impl;
 using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
+using Solicitud_Fondos_Avance_API.Infrastructure.Interfaces.Auth;
 using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl;
 using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Solicitud_Fondos_Avance_API
@@ -33,6 +38,23 @@ namespace Solicitud_Fondos_Avance_API
         {
 
             services.AddControllers();
+            var secretKey = Configuration.GetValue<string>("Authorization:SecretKeyJWT");
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
+                {
+                    var serverSecret = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        IssuerSigningKey = serverSecret,
+                        ValidIssuer = "issuer",
+                        ValidAudience = "audience",
+                        ValidateLifetime = true,
+                        RequireExpirationTime = true
+                    };
+                });
+            services.AddSingleton<IJWTTokenAuth>(new JWTTokenAuth(secretKey));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Solicitud_Fondos_Avance_API", Version = "v1" });
@@ -48,10 +70,14 @@ namespace Solicitud_Fondos_Avance_API
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IPersonaRepository, PersonaRepository>();
             services.AddTransient<IProyectoRepository, ProyectoRepository>();
+
+           
+
+            
 
         }
 
@@ -65,11 +91,13 @@ namespace Solicitud_Fondos_Avance_API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Solicitud_Fondos_Avance_API v1"));
             }
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

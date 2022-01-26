@@ -1,4 +1,6 @@
-﻿using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
+﻿using Solicitud_Fondos_Avance_API.Dtos;
+using Solicitud_Fondos_Avance_API.Dtos.personas;
+using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
 using Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Interfaces;
 using Solicitud_Fondos_Avance_API.Models;
 using System;
@@ -12,6 +14,18 @@ namespace Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl
     {
         public PersonaRepository(DbContextSolicitudFondosAvance dbContextSolicitudFondosAvance) : base(dbContextSolicitudFondosAvance)
         {
+        }
+
+        public async Task<Persona> addWithProjects(Persona personaEntidad)
+        {
+            var entity = (await dbContextSolicitudFondosAvance.AddAsync(personaEntidad)).Entity;
+            await dbContextSolicitudFondosAvance.SaveChangesAsync();
+            entity.proyectos.AddRange(personaEntidad.proyectos);
+
+            /*var entity = (await dbContextSolicitudFondosAvance.Personas.AddAsync(personaEntidad)).Entity;
+            //var entity = (await dbSet.AddAsync(personaEntidad)).Entity;
+            await dbContextSolicitudFondosAvance.SaveChangesAsync();*/
+            return entity;
         }
 
         public async Task<Persona> addWithValidations(Persona persona)
