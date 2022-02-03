@@ -62,7 +62,7 @@ namespace Solicitud_Fondos_Avance_API
 
             services.AddDbContext<DbContextSolicitudFondosAvance>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")
+                    Configuration.GetConnectionString("DevConnection")
                    )
             );
 
