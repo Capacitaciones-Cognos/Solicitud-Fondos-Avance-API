@@ -68,7 +68,7 @@ namespace Solicitud_Fondos_Avance_API.Infrastructure.Repositories.Impl
             var response = new ResponseDeleteDto
             {
                 deleted = false,
-                message = "Ocurrio un error al eliminar"
+                message = "Ocurrio un error al eliminar, ID de no existente"
             };
             if (entityForDelete != null)
             {
