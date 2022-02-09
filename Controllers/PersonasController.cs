@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Solicitud_Fondos_Avance_API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonasController : ControllerBase
