@@ -52,6 +52,7 @@ namespace Solicitud_Fondos_Avance_API
 
             services.AddTransient<IPersonaRepository, PersonaRepository>();
             services.AddTransient<IProyectoRepository, ProyectoRepository>();
+            services.AddTransient<ISubProyectoRepository, SubProyectoRepository>();
 
         }
 

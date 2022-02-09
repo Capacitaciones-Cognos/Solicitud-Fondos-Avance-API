@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
 
 namespace Solicitud_Fondos_Avance_API.Migrations
 {
     [DbContext(typeof(DbContextSolicitudFondosAvance))]
-    partial class DbContextSolicitudFondosAvanceModelSnapshot : ModelSnapshot
+    [Migration("20220209190809_migration_addTableSubproyecto")]
+    partial class migration_addTableSubproyecto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,19 +111,10 @@ namespace Solicitud_Fondos_Avance_API.Migrations
                     b.Property<string>("descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte>("estado")
-                        .HasColumnType("tinyint");
-
                     b.Property<DateTime?>("fechaFin")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("fechaInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("fecha_creacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("fecha_modificacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("nombre")

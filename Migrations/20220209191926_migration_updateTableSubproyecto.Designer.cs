@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Solicitud_Fondos_Avance_API.Infrastructure.DataContext;
 
 namespace Solicitud_Fondos_Avance_API.Migrations
 {
     [DbContext(typeof(DbContextSolicitudFondosAvance))]
-    partial class DbContextSolicitudFondosAvanceModelSnapshot : ModelSnapshot
+    [Migration("20220209191926_migration_updateTableSubproyecto")]
+    partial class migration_updateTableSubproyecto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
